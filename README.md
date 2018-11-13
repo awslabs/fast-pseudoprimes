@@ -29,16 +29,17 @@ In the final phase, we recompute all of the subset products in phase 1 (recall t
 From a fresh Ubuntu EC2 instance (m5d.24xlarge):
 
 ```
-# https://doc.rust-lang.org/1.5.0/book/nightly-rust.html
 sudo apt update --fix-missing
 sudo apt install libnuma-dev build-essential m4
-curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
+curl https://sh.rustup.rs -sSf | sh
+source $HOME/.cargo/env
+rustup install nightly
 for i in /sys/devices/system/node/node*/hugepages/hugepages-1048576kB/nr_hugepages; do
     echo 64 | sudo tee $i
 done
 git clone https://github.com/awslabs/fast-pseudoprimes.git
-cd FastPseudoprimes
-cargo run --features numa,unstable --release
+cd fast-pseudoprimes
+cargo +nightly run --features numa,unstable --release
 ```
 The code takes about 24 seconds to run from start to finish.
 

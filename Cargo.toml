@@ -1,0 +1,25 @@
+[package]
+name = "pseudoprimes"
+version = "0.1.0"
+authors = ["Andrew Hopkins <andhop@amazon.com>"]
+
+[dependencies]
+modinverse = "0.1.0"
+rug = "1.2.1"
+threadpool = "1.7"
+lazy_static = "1.1"
+rand = "0.5.5"
+itertools = "0.7.8"
+
+[dependencies.nix]
+version = "0.9"
+optional = true
+
+[dependencies.libc]
+version = "0.2"
+optional = true
+
+[features]
+default = []
+unstable = ["libc"]
+numa = ["libc", "nix"]

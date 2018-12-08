@@ -10,6 +10,7 @@ threadpool = "1.7"
 lazy_static = "1.1"
 rand = "0.5.5"
 itertools = "0.7.8"
+hashbrown = "0.1"
 
 [dependencies.nix]
 version = "0.9"

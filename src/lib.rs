@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(dead_code)]
+#![cfg_attr(feature = "unstable", feature(duration_as_u128))]
 #![cfg_attr(feature = "unstable", feature(asm))]
 #![cfg_attr(feature = "unstable", feature(core_intrinsics))]
 #![cfg_attr(feature = "unstable", feature(avx512_target_feature))]
@@ -11,6 +12,8 @@ extern crate lazy_static;
 extern crate modinverse;
 extern crate rug;
 extern crate threadpool;
+extern crate hashbrown;
+
 #[cfg(feature="unstable")]
 extern crate libc;
 extern crate itertools;

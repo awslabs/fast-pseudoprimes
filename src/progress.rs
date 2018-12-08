@@ -27,8 +27,8 @@ impl<'a> Drop for ProgressHandle<'a> {
 
 impl<'a> Drop for ProgressReporter {
     fn drop(&mut self) {
-        println!("[{}] Completed {} in {}s", self.desc, self.counter.load(Ordering::SeqCst),
-            self.start_time.elapsed().as_secs());
+        println!("[{}] Completed {} in {}ms", self.desc, self.counter.load(Ordering::SeqCst),
+            self.start_time.elapsed().as_millis());
     }
 }
 

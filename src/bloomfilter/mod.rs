@@ -7,7 +7,7 @@ use numa_threadpool::ThreadPool;
 
 use std::sync::{Mutex, Arc, mpsc::channel};
 use std::sync::atomic::{Ordering, AtomicUsize};
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use std::time::Instant;
 
 mod conc_bloom;
@@ -230,6 +230,7 @@ pub fn final_sieve(
     t1: &[u64],
     t2: &[u64]
 ) -> Vec<Pseudoprime> {
+    let total = Instant::now();
     let t2map = Arc::new(t2map);
     let pool = ThreadPool::new(|_| ());
     let t1_product_set = Arc::new(ProductSet::new(t1_forward, MODULUS));
@@ -263,6 +264,8 @@ pub fn final_sieve(
     let results = results.into_inner().unwrap();
 
     let t3_misses = t3_misses.load(Ordering::SeqCst);
+
+    println!("[final_sieve] Completed in {}ms", total.elapsed().as_millis());
 
     println!("Found {} pseudoprimes, with {} T3 misses, {} T2 false positives",
         results.len(), t3_misses, t2map.len() - t3_misses - results.len());

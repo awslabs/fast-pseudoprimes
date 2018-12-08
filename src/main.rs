@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #![cfg_attr(feature = "unstable", feature(asm))]
+#![cfg_attr(feature = "unstable", feature(duration_as_u128))]
 
 extern crate pseudoprimes;
 extern crate rug;
@@ -21,6 +22,7 @@ fn main() {
 
     // fp p<=0.001, 32GiB, k=2
     let filter = bloom_t1(&T1_INVERSE);
+    println!("[timing]: bloom_t1 {} milliseconds", total.elapsed().as_millis());
 
     let t2_map = build_t2(filter, &T2);
 
@@ -32,5 +34,6 @@ fn main() {
         println!("Found passing prime {}, vector {:?}", result.pseudoprime, result.factors);
     }
 
+    println!("[total]: Completed in {}ms", total.elapsed().as_millis());
     println!("Total time: {} seconds, primes found: {}", total.elapsed().as_secs(), results.len());
 }

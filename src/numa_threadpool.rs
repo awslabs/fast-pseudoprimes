@@ -49,7 +49,7 @@ pub use self::numa::*;
 mod numa {
     extern crate nix;
 
-    use libc::{c_char, c_uint, c_int, c_ulong};
+    use numa_threadpool::numa::nix::libc::{c_char, c_uint, c_int, c_ulong};
     use std::ffi::CString;
     use std::sync::{Arc, Mutex, Condvar};
     use std::thread::{JoinHandle, self};
@@ -148,7 +148,7 @@ mod numa {
 
     fn worker<Context: 'static>(node: &NodeInfo<Context>, cpu_id: c_uint, queue: &WorkQueue<Context>) {
         use self::nix::unistd::gettid;
-        use libc::pid_t;
+        use numa_threadpool::numa::nix::libc::pid_t;
 
         let tid = pid_t::from(gettid());
         unsafe {

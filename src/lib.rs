@@ -26,3 +26,4 @@ pub mod magic_numbers;
 pub mod bitset;
 pub mod modulus;
 pub mod numa_threadpool;
+pub mod time;

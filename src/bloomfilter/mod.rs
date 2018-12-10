@@ -15,6 +15,7 @@ use bloomfilter::conc_bloom::*;
 
 use magic_numbers::*;
 use modulus::*;
+use time::get_elapsed_time;
 
 const FILTER_SIZE : usize = 1usize << 39;
 const FILTER_HASHES : usize = 2;
@@ -265,7 +266,7 @@ pub fn final_sieve(
 
     let t3_misses = t3_misses.load(Ordering::SeqCst);
 
-    println!("[final_sieve] Completed in {}ms", total.elapsed().as_millis());
+    println!("[final_sieve] Completed in {}", get_elapsed_time(total));
 
     println!("Found {} pseudoprimes, with {} T3 misses, {} T2 false positives",
         results.len(), t3_misses, t2map.len() - t3_misses - results.len());

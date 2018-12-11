@@ -1,9 +1,9 @@
-// mod.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// bitset.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-use gray_prod_iter::*;
-use progress;
-use numa_threadpool::ThreadPool;
+use crate::gray_prod_iter::*;
+use crate::progress;
+use crate::numa_threadpool::ThreadPool;
 
 use std::sync::{Mutex, Arc, mpsc::channel};
 use std::sync::atomic::{Ordering, AtomicUsize};
@@ -11,11 +11,11 @@ use hashbrown::HashMap;
 use std::time::Instant;
 
 mod conc_bloom;
-use bloomfilter::conc_bloom::*;
+use crate::bloomfilter::conc_bloom::*;
 
-use magic_numbers::*;
-use modulus::*;
-use time::get_elapsed_time;
+use crate::magic_numbers::*;
+use crate::modulus::*;
+use crate::time::get_elapsed_time;
 
 const FILTER_SIZE : usize = 1usize << 39;
 const FILTER_HASHES : usize = 2;
@@ -32,8 +32,6 @@ pub fn bloom_t1_kernel<M: Modulus>(
 ) {
     let mut handle = progress.handle();
 
-    let filter = &filter as &BloomFilter<u64>;
-
     for (_k, v) in ProductIter::new(&product_set, start, end) {
         filter.put(&v);
         handle.report(1);
@@ -46,7 +44,7 @@ pub fn bloom_t1_kernel<M: Modulus>(
 /// Details: we create a bloom filter for each NUMA node,
 /// then divides the work up into lots of chunks. 
 /// The subset products for each chunk are inserted into one of the two bloom filters,
-/// and at the end of the comptutation, we "cross_or" the two filters together so that
+/// and at the end of the computation, we "cross_or" the two filters together so that
 /// each bloom filter contains *all* of the subset products.
 /// We output a map from NUMA node ID to a bloom filter,
 /// where each bloom filter contains all subset products in t1.
@@ -143,7 +141,7 @@ pub fn build_t2(
 
     let per_task = total_work / N_TASKS;
 
-    let pool : ThreadPool<Arc<BloomFilter<u64>>> = ThreadPool::new(|node_id| 
+    let pool : ThreadPool<Arc<BloomFilter<u64>>> = ThreadPool::new(|node_id|
         filters.get(&node_id).unwrap_or_else(|| {
             println!("Warning: Couldn't find a T1 for node {}, falling back to arbitrary node", node_id);
             filters.iter().next().unwrap().1

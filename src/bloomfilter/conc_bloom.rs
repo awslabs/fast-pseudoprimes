@@ -5,7 +5,7 @@ use std::hash::{Hasher, Hash, BuildHasher};
 use std::collections::hash_map::RandomState;
 use std::marker::PhantomData;
 
-use bitset::BitSet;
+use crate::bitset::BitSet;
 
 pub struct Builder<T: Hash> {
     hash_states: Vec<RandomState>,

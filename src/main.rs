@@ -11,11 +11,11 @@ extern crate itertools;
 
 use pseudoprimes::*;
 
-use magic_numbers::*;
-use bloomfilter::*;
+use crate::magic_numbers::*;
+use crate::time::get_elapsed_time;
+use crate::bloomfilter::*;
 
 use std::time::Instant;
-use pseudoprimes::time::get_elapsed_time;
 
 
 fn main() {

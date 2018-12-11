@@ -7,17 +7,6 @@
 #![cfg_attr(feature = "unstable", feature(core_intrinsics))]
 #![cfg_attr(feature = "unstable", feature(avx512_target_feature))]
 
-#[macro_use]
-extern crate lazy_static;
-extern crate modinverse;
-extern crate rug;
-extern crate threadpool;
-extern crate hashbrown;
-
-#[cfg(feature="unstable")]
-extern crate libc;
-extern crate itertools;
-
 pub mod mulmod;
 pub mod bloomfilter;
 pub mod progress;

@@ -3,7 +3,7 @@
 
 use std::time::Instant;
 use std::sync::atomic::{Ordering, AtomicUsize};
-use time::get_elapsed_time;
+use crate::time::get_elapsed_time;
 
 pub struct ProgressReporter {
     desc: String,

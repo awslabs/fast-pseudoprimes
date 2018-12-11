@@ -1,4 +1,4 @@
-// mod.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// bitset.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 mod stable;
@@ -14,5 +14,5 @@ pub use self::stable::*;
 
 #[cfg(not(all(feature = "unstable", feature = "numa")))]
 impl BitSet {
-    pub fn on_node(self, node_id: u32) -> Self { self }
+    pub fn on_node(self, _node_id: u32) -> Self { self }
 }

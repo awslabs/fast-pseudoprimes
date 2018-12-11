@@ -41,7 +41,7 @@ git clone https://github.com/awslabs/fast-pseudoprimes.git
 cd fast-pseudoprimes
 cargo +nightly run --features numa,unstable --release
 ```
-The code takes about 24 seconds to run from start to finish.
+The code takes about 21.9 seconds to run from start to finish.
 
 ## Status of this code
 This code is released as-is, and we have no plans to maintain it. We are happy to accept pull requests.

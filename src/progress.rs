@@ -3,6 +3,7 @@
 
 use std::time::Instant;
 use std::sync::atomic::{Ordering, AtomicUsize};
+use crate::time::get_elapsed_time;
 
 pub struct ProgressReporter {
     desc: String,
@@ -27,8 +28,8 @@ impl<'a> Drop for ProgressHandle<'a> {
 
 impl<'a> Drop for ProgressReporter {
     fn drop(&mut self) {
-        println!("[{}] Completed {} in {}s", self.desc, self.counter.load(Ordering::SeqCst),
-            self.start_time.elapsed().as_secs());
+        println!("[{}] Completed {} in {}", self.desc, self.counter.load(Ordering::SeqCst),
+                 get_elapsed_time(self.start_time));
     }
 }
 

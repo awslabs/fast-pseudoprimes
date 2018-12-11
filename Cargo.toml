@@ -2,6 +2,7 @@
 name = "pseudoprimes"
 version = "0.1.0"
 authors = ["Andrew Hopkins <andhop@amazon.com>"]
+edition = "2018"
 
 [dependencies]
 modinverse = "0.1.0"
@@ -10,6 +11,7 @@ threadpool = "1.7"
 lazy_static = "1.1"
 rand = "0.5.5"
 itertools = "0.7.8"
+hashbrown = "0.1"
 
 [dependencies.nix]
 version = "0.9"

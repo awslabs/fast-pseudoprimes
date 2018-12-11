@@ -1,7 +1,8 @@
 // gray_prod_iters.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-use modulus::*;
+
+use crate::modulus::*;
 
 pub struct ProductSet<M: Modulus + 'static> {
     elems: Vec<u64>,

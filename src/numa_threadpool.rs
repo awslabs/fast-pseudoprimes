@@ -49,12 +49,12 @@ pub use self::numa::*;
 mod numa {
     extern crate nix;
 
-    use libc::{c_char, c_uint, c_int, c_ulong};
     use std::ffi::CString;
     use std::sync::{Arc, Mutex, Condvar};
     use std::thread::{JoinHandle, self};
     use std::collections::VecDeque;
     use std::marker::Send;
+    use std::os::raw::{c_ulong, c_uint, c_int, c_char};
 
     #[repr(C)]
     struct bitmask { 
@@ -148,7 +148,7 @@ mod numa {
 
     fn worker<Context: 'static>(node: &NodeInfo<Context>, cpu_id: c_uint, queue: &WorkQueue<Context>) {
         use self::nix::unistd::gettid;
-        use libc::pid_t;
+        use crate::numa_threadpool::numa::nix::libc::pid_t;
 
         let tid = pid_t::from(gettid());
         unsafe {
@@ -182,7 +182,7 @@ mod numa {
             if unsafe { numa_bitmask_isbitset(numa_all_nodes_ptr, i) } {
                 let mut info = NodeInfo { node_id: (i as c_uint), cpuset: Vec::new(), context: context_ctor(i) };
 
-                let mut bitmask = unsafe { numa_allocate_cpumask() };
+                let bitmask = unsafe { numa_allocate_cpumask() };
                 if unsafe { numa_node_to_cpus(i, bitmask) } != 0 {
                     panic!("numa_node_to_cpus");
                 }

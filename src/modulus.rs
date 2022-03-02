@@ -1,7 +1,7 @@
 // modulus.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-use magic_numbers::M;
+use crate::magic_numbers::M;
 use modinverse::modinverse;
 
 pub const MODULUS : OptiM = OptiM{};

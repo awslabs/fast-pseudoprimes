@@ -1,10 +1,11 @@
 // magic_numbers.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-
+use lazy_static::*;
 use rug::Integer;
 use rug::integer::IsPrime;
 use itertools::iproduct;
-use modulus::*;
+use crate::modulus::*;
+
 
 pub const M: u64 = 11908862398227544750;
 pub const MAX_R: u64 = 1152921504606846976;

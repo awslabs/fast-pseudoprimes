@@ -23,20 +23,20 @@ mod simple {
             ThreadPool { context: Arc::new(context), pool: threadpool::ThreadPool::default() }
         }
 
-        pub fn execute<Task>(&mut self, task: Task)
+        pub fn execute<Task>(&self, task: Task)
             where Task: Fn(&Context)->() + Send + 'static
         {
             let context = self.context.clone();
             self.pool.execute(move|| task(&context));
         }
 
-        pub fn join(self) -> Vec<Context> {
+        pub fn join(self) -> Vec<(u32, Context)> {
             self.pool.join();
             let context = Arc::try_unwrap(self.context).unwrap_or_else(move|_|
                 panic!("Some threads didn't exit somehow")
             );
 
-            return vec![context];
+            return vec![(0, context)];
         }
 
     }

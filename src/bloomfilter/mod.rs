@@ -42,7 +42,7 @@ pub fn bloom_t1_kernel<M: Modulus>(
 /// For all subsets of the input array t1 (which main.rs passes T1_INVERSE),
 /// computes the corresponding subset product
 /// and inserts the product into a Bloom filter.
-/// Details: we crate a bloom filter for each NUMA node,
+/// Details: we create a bloom filter for each NUMA node,
 /// then divides the work up into lots of chunks. 
 /// The subset products for each chunk are inserted into one of the two bloom filters,
 /// and at the end of the comptutation, we "cross_or" the two filters together so that
@@ -54,7 +54,7 @@ pub fn bloom_t1(t1: &[u64]) -> HashMap<u32, Arc<BloomFilter<u64>>> {
     let total_work = 1u64 << t1.len();
 
     let progress = Arc::new(progress::ProgressReporter::new("bloom_t1", total_work as usize));
-    // crate an empty bloom filter
+    // create an empty bloom filter
     let builder = conc_bloom::Builder::new(FILTER_SIZE, FILTER_HASHES);
 
     let product_set = Arc::new(ProductSet::new(t1, MODULUS));
@@ -92,7 +92,7 @@ pub fn bloom_t1(t1: &[u64]) -> HashMap<u32, Arc<BloomFilter<u64>>> {
         filters.push((node_id, f2));
     }
 
-    // crate a map from NUMA node to corresponding bloom filter
+    // create a map from NUMA node to corresponding bloom filter
     let mut filtermap = HashMap::new();
     for (node, filter) in filters.into_iter() {
         filtermap.insert(node, Arc::new(filter));

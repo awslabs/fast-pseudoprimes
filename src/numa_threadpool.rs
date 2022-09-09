@@ -90,7 +90,7 @@ mod numa {
     }
 
     struct Join {}
-    type Task<Context> = Box<Fn(&Context)->() + Send + 'static>;
+    type Task<Context> = Box<dyn Fn(&Context)->() + Send + 'static>;
 
     struct NodeInfo<Context> {
         node_id: c_uint,
@@ -182,7 +182,7 @@ mod numa {
             if unsafe { numa_bitmask_isbitset(numa_all_nodes_ptr, i) } {
                 let mut info = NodeInfo { node_id: (i as c_uint), cpuset: Vec::new(), context: context_ctor(i) };
 
-                let mut bitmask = unsafe { numa_allocate_cpumask() };
+                let  bitmask = unsafe { numa_allocate_cpumask() };
                 if unsafe { numa_node_to_cpus(i, bitmask) } != 0 {
                     panic!("numa_node_to_cpus");
                 }

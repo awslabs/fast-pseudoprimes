@@ -97,7 +97,7 @@ impl ProgressReporter {
             new_interval = 100;
         }
 
-        self.interval.compare_and_swap(old_interval, new_interval, Ordering::Relaxed);
+        self.interval.compare_exchange(old_interval, new_interval, Ordering::Relaxed, Ordering::Relaxed).unwrap();
 
         println!("[{}] {} ({}/s, {}s remain)",
             self.desc, curval, rate, ((self.total - curval) as f64) / rate

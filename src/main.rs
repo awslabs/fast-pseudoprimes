@@ -10,8 +10,8 @@ extern crate itertools;
 
 use pseudoprimes::*;
 
-use magic_numbers::*;
-use bloomfilter::*;
+use crate::magic_numbers::*;
+use crate::bloomfilter::*;
 
 use std::time::Instant;
 

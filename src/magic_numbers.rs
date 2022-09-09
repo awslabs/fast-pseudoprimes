@@ -4,7 +4,7 @@
 use rug::Integer;
 use rug::integer::IsPrime;
 use itertools::iproduct;
-use modulus::*;
+use crate::modulus::*;
 
 pub const M: u64 = 11908862398227544750;
 pub const MAX_R: u64 = 1152921504606846976;

@@ -1,9 +1,9 @@
 // mod.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-use gray_prod_iter::*;
-use progress;
-use numa_threadpool::ThreadPool;
+use crate::gray_prod_iter::*;
+use crate::progress;
+use crate::numa_threadpool::ThreadPool;
 
 use std::sync::{Mutex, Arc, mpsc::channel};
 use std::sync::atomic::{Ordering, AtomicUsize};
@@ -11,10 +11,10 @@ use std::collections::HashMap;
 use std::time::Instant;
 
 mod conc_bloom;
-use bloomfilter::conc_bloom::*;
+use crate::bloomfilter::conc_bloom::*;
 
-use magic_numbers::*;
-use modulus::*;
+use crate::magic_numbers::*;
+use crate::modulus::*;
 
 const FILTER_SIZE : usize = 1usize << 39;
 const FILTER_HASHES : usize = 2;
@@ -42,7 +42,7 @@ pub fn bloom_t1_kernel<M: Modulus>(
 /// For all subsets of the input array t1 (which main.rs passes T1_INVERSE),
 /// computes the corresponding subset product
 /// and inserts the product into a Bloom filter.
-/// Details: we create a bloom filter for each NUMA node,
+/// Details: we crate a bloom filter for each NUMA node,
 /// then divides the work up into lots of chunks. 
 /// The subset products for each chunk are inserted into one of the two bloom filters,
 /// and at the end of the comptutation, we "cross_or" the two filters together so that
@@ -54,7 +54,7 @@ pub fn bloom_t1(t1: &[u64]) -> HashMap<u32, Arc<BloomFilter<u64>>> {
     let total_work = 1u64 << t1.len();
 
     let progress = Arc::new(progress::ProgressReporter::new("bloom_t1", total_work as usize));
-    // create an empty bloom filter
+    // crate an empty bloom filter
     let builder = conc_bloom::Builder::new(FILTER_SIZE, FILTER_HASHES);
 
     let product_set = Arc::new(ProductSet::new(t1, MODULUS));
@@ -92,7 +92,7 @@ pub fn bloom_t1(t1: &[u64]) -> HashMap<u32, Arc<BloomFilter<u64>>> {
         filters.push((node_id, f2));
     }
 
-    // create a map from NUMA node to corresponding bloom filter
+    // crate a map from NUMA node to corresponding bloom filter
     let mut filtermap = HashMap::new();
     for (node, filter) in filters.into_iter() {
         filtermap.insert(node, Arc::new(filter));
@@ -130,7 +130,7 @@ fn build_t2_kernel<M: Modulus>(
 /// compute resources. For each subset proudct, we check the (closest copy of the) bloom filter.
 /// If the product is in the bloom filter, we add the (product, SSP mask) to the map,
 /// otherwise we discard it.
-/// Outputs a hashmap from SSPs to t2-masks which create them for SSPs found in the bloom filter
+/// Outputs a hashmap from SSPs to t2-masks which crate them for SSPs found in the bloom filter
 pub fn build_t2(
     filters: HashMap<u32, Arc<BloomFilter<u64>>>, 
     t2: &[u64]

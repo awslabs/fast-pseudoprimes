@@ -2,6 +2,7 @@
 name = "pseudoprimes"
 version = "0.1.0"
 authors = ["Andrew Hopkins <andhop@amazon.com>"]
+edition = "2021"
 
 [dependencies]
 modinverse = "0.1.0"

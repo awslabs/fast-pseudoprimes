@@ -130,7 +130,7 @@ fn build_t2_kernel<M: Modulus>(
 /// compute resources. For each subset proudct, we check the (closest copy of the) bloom filter.
 /// If the product is in the bloom filter, we add the (product, SSP mask) to the map,
 /// otherwise we discard it.
-/// Outputs a hashmap from SSPs to t2-masks which crate them for SSPs found in the bloom filter
+/// Outputs a hashmap from SSPs to t2-masks which create them for SSPs found in the bloom filter
 pub fn build_t2(
     filters: HashMap<u32, Arc<BloomFilter<u64>>>, 
     t2: &[u64]

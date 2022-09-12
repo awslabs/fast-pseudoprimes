@@ -39,9 +39,9 @@ for i in /sys/devices/system/node/node*/hugepages/hugepages-1048576kB/nr_hugepag
 done
 git clone https://github.com/awslabs/fast-pseudoprimes.git
 cd fast-pseudoprimes
-cargo +nightly run --features numa,unstable --release
+cargo run --release
 ```
-The code takes about 24 seconds to run from start to finish.
+The code takes about 88 seconds to run from start to finish. Running with assembly optimizations `cargo +nightly run --features numa,unstable --release` is currently broken due to assembly syntax changes in the Rust compiler. Previously this tool took 24 seconds to run.
 
 ## Status of this code
 This code is released as-is, and we have no plans to maintain it. We are happy to accept pull requests.

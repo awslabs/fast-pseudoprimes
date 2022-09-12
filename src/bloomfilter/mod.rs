@@ -1,9 +1,9 @@
 // mod.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-use gray_prod_iter::*;
-use progress;
-use numa_threadpool::ThreadPool;
+use crate::gray_prod_iter::*;
+use crate::progress;
+use crate::numa_threadpool::ThreadPool;
 
 use std::sync::{Mutex, Arc, mpsc::channel};
 use std::sync::atomic::{Ordering, AtomicUsize};
@@ -11,10 +11,10 @@ use std::collections::HashMap;
 use std::time::Instant;
 
 mod conc_bloom;
-use bloomfilter::conc_bloom::*;
+use crate::bloomfilter::conc_bloom::*;
 
-use magic_numbers::*;
-use modulus::*;
+use crate::magic_numbers::*;
+use crate::modulus::*;
 
 const FILTER_SIZE : usize = 1usize << 39;
 const FILTER_HASHES : usize = 2;

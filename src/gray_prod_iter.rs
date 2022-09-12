@@ -1,7 +1,7 @@
 // gray_prod_iters.rs Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-use modulus::*;
+use crate::modulus::*;
 
 pub struct ProductSet<M: Modulus + 'static> {
     elems: Vec<u64>,
@@ -105,7 +105,7 @@ impl<'a, M: Modulus + 'static> Iterator for ProductIter<'a, M> {
 #[cfg(test)]
 mod test {
     use super::*;
-    use magic_numbers::R;
+    use crate::magic_numbers::R;
 
     /// computes all subset products in a range, stores a vector of pairs (i,ssp(i))
     fn reference_range<M: Modulus>(ps: &ProductSet<M>, start: u64, end: u64) -> Vec<(u64, u64)> {

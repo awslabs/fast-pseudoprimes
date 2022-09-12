@@ -14,5 +14,5 @@ pub use self::stable::*;
 
 #[cfg(not(all(feature = "unstable", feature = "numa")))]
 impl BitSet {
-    pub fn on_node(self, node_id: u32) -> Self { self }
+    pub fn on_node(self, _node_id: u32) -> Self { self }
 }

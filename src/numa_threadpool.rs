@@ -23,20 +23,20 @@ mod simple {
             ThreadPool { context: Arc::new(context), pool: threadpool::ThreadPool::default() }
         }
 
-        pub fn execute<Task>(&mut self, task: Task)
+        pub fn execute<Task>(&self, task: Task)
             where Task: Fn(&Context)->() + Send + 'static
         {
             let context = self.context.clone();
             self.pool.execute(move|| task(&context));
         }
 
-        pub fn join(self) -> Vec<Context> {
+        pub fn join(self) -> Vec<(u32, Context)> {
             self.pool.join();
             let context = Arc::try_unwrap(self.context).unwrap_or_else(move|_|
                 panic!("Some threads didn't exit somehow")
             );
 
-            return vec![context];
+            return vec![(0, context)];
         }
 
     }
@@ -90,7 +90,7 @@ mod numa {
     }
 
     struct Join {}
-    type Task<Context> = Box<Fn(&Context)->() + Send + 'static>;
+    type Task<Context> = Box<dyn Fn(&Context)->() + Send + 'static>;
 
     struct NodeInfo<Context> {
         node_id: c_uint,
@@ -182,7 +182,7 @@ mod numa {
             if unsafe { numa_bitmask_isbitset(numa_all_nodes_ptr, i) } {
                 let mut info = NodeInfo { node_id: (i as c_uint), cpuset: Vec::new(), context: context_ctor(i) };
 
-                let mut bitmask = unsafe { numa_allocate_cpumask() };
+                let  bitmask = unsafe { numa_allocate_cpumask() };
                 if unsafe { numa_node_to_cpus(i, bitmask) } != 0 {
                     panic!("numa_node_to_cpus");
                 }
